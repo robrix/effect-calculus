@@ -26,6 +26,11 @@ instance Bifunctor (&) where
 
 data a ⊕ b = L a | R b
 
+instance Bifunctor (⊕) where
+  bimap f g = \case
+    L a -> L (f a)
+    R b -> R (g b)
+
 
 -- Continuations
 
