@@ -105,7 +105,7 @@ infixr 6 ⊕
 instance Disj (⊕) where
   inl = fmap InL
   inr = fmap InR
-  l <-> r = cocurry (\case{ InL a -> Left a ; InR b -> Right b }) <#> l <&> r
+  l <-> r = cocurry id <#> l <&> r
 
 instance Foldable ((⊕) a) where
   foldMap = foldMapDefault
@@ -299,5 +299,5 @@ withCofun (b :>- a) = K (\ f -> f b • a)
 
 -- Computation
 
-cocurry :: (c -> Either a b) -> Fun r (Cofun r b c) a
+cocurry :: Disj d => (c -> a `d` b) -> Fun r (Cofun r b c) a
 cocurry f = Fun (\ k -> K (\ (b :>- c) -> (k <-> b) • f c))
