@@ -3,6 +3,9 @@ module Effect.Syntax
   Syn(..)
   -- * Connectives
   -- ** With
+, (&)
+, exl
+, exr
 , type (&)(..)
   -- ** Sum
 , type (⊕)(..)
@@ -28,6 +31,12 @@ class Syn rep where
 
 (&) :: a -> b -> a & b
 a & b = With (K (either (• a) (• b)))
+
+exl :: a & b -> a
+exl (With k) = k • Left (K id)
+
+exr :: a & b -> b
+exr (With k) = k • Right (K id)
 
 newtype a & b = With { getWith :: forall r . r • Either (r • a) (r • b) }
 
