@@ -213,7 +213,7 @@ class Contravariant k => Contrapply r k | k -> r where
   (<&>) :: k (a >-r-~ b) -> k a -> k b
   (<&>) = coliftC2 id
 
-  infixl 4 <&>
+  infixl 3 <&>
 
 instance Contrapply Bool Predicate where
   f <&> a = comap (coerceK a >-) f
