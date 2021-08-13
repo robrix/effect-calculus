@@ -10,6 +10,7 @@ module Effect.Syntax
 
 import Data.Bifoldable
 import Data.Bifunctor
+import Data.Bitraversable
 import Data.Functor.Contravariant
 
 -- Syntax
@@ -42,6 +43,11 @@ instance Bifunctor (⊕) where
   bimap f g = \case
     L a -> L (f a)
     R b -> R (g b)
+
+instance Bitraversable (⊕) where
+  bitraverse f g = \case
+    L a -> L <$> f a
+    R b -> R <$> g b
 
 
 -- Continuations
