@@ -21,6 +21,7 @@ module Effect.Syntax
 , Disj(..)
   -- * Contravariant applicative
 , comap
+, ContravariantCPS(..)
 , Contrapply(..)
 , Contrapplicative(..)
   -- * Functions
@@ -202,6 +203,9 @@ instance Disj Either where
 
 comap :: Contravariant f => (a' -> a) -> (f a -> f a')
 comap = contramap
+
+class Contravariant k => ContravariantCPS r k | k -> r where
+  comapCPS :: (a' ~~r~> a) -> (k a -> k a')
 
 
 class Contravariant k => Contrapply r k | k -> r where
