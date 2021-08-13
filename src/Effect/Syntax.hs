@@ -35,14 +35,10 @@ instance Functor ((⊕) a) where
   fmap = second
 
 instance Bifoldable (⊕) where
-  bifoldMap f g = \case
-    L a -> f a
-    R b -> g b
+  bifoldMap = bifoldMapDefault
 
 instance Bifunctor (⊕) where
-  bimap f g = \case
-    L a -> L (f a)
-    R b -> R (g b)
+  bimap = bimapDefault
 
 instance Bitraversable (⊕) where
   bitraverse f g = \case
