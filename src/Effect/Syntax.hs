@@ -21,10 +21,10 @@ class Syn rep where
 
 -- Connectives
 
-newtype a & b = With { getWith :: forall x . Either (a -> x) (b -> x) -> x }
+newtype a & b = With { getWith :: forall r . Either (r • a) (r • b) -> r }
 
 instance Bifunctor (&) where
-  bimap f g r = With (getWith r . bimap (. f) (. g))
+  bimap f g r = With (getWith r . bimap (contramap f) (contramap g))
 
 data a ⊕ b = L !a | R !b
 
