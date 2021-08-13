@@ -26,6 +26,9 @@ instance Bifunctor (&) where
 
 data a ⊕ b = L a | R b
 
+instance Functor ((⊕) a) where
+  fmap = second
+
 instance Bifunctor (⊕) where
   bimap f g = \case
     L a -> L (f a)
