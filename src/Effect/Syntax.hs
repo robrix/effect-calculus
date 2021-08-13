@@ -23,10 +23,12 @@ module Effect.Syntax
 , Contrapplicative(..)
   -- * Functions
 , Fun(..)
+  -- ** Mixfix syntax
 , type (~~)
 , type (~>)
   -- * Cofunctions
 , Cofun(..)
+  -- ** Mixfix syntax
 , type (>-)
 , type (-~)
 ) where
@@ -185,6 +187,8 @@ class Contrapply r k => Contrapplicative r k | k -> r where
 
 newtype Fun r a b = Fun { getFun :: (r • b) -> (r • a) }
 
+-- Mixfix syntax
+
 type a ~~r = Fun r a
 type r~> b = r b
 
@@ -195,6 +199,8 @@ infixr 0 ~>
 -- Cofunctions
 
 data Cofun r b a = (:>-) { coreturn :: r • b, coconst :: a }
+
+-- Mixfix syntax
 
 type a >-r = Cofun r a
 type r-~ b = r b
