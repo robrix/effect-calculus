@@ -37,7 +37,7 @@ class Syn rep where
 (&) :: a -> b -> a & b
 a & b = With (K (either (• a) (• b)))
 
-newtype a & b = With { getWith :: forall r . r • Either (r • a) (r • b) }
+newtype a & b = With { getWith :: forall r . r • Either (r • a) (r • b) }
 
 infixr 6 &
 
