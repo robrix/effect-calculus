@@ -7,13 +7,18 @@ module Effect.Syntax
 , type (•)(..)
 ) where
 
+import Data.Bifunctor
+
 class Syn rep where
   hdl :: (msg -> rep a) -> rep a
 
 
 -- Connectives
 
-newtype a & b = With { getWith :: forall x . (Either (a -> x) (b -> x) -> x) -> x }
+newtype a & b = With { getWith :: forall x . Either (a -> x) (b -> x) -> x }
+
+instance Bifunctor (&) where
+  bimap f g r = With (getWith r . bimap (. f) (. g))
 
 data a ⊕ b = L a | R b
 
