@@ -16,6 +16,8 @@ module Effect.Syntax
 , Conj(..)
   -- * Disjunctions
 , Disj(..)
+  -- * Contravariant applicative
+, comap
   -- * Cofunctions
 , Cofun(..)
 , type (>-)
@@ -141,6 +143,12 @@ class Disj d where
   inr :: Functor f => f b -> f (a `d` b)
   (<->) :: (r • a) -> (r • b) -> r • (a `d` b)
   infixr 3 <->
+
+
+-- Contravariant applicative
+
+comap :: Contravariant f => (a' -> a) -> (f a -> f a')
+comap = contramap
 
 
 -- Cofunctions
