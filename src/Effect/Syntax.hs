@@ -21,6 +21,8 @@ module Effect.Syntax
 , comap
 , Contrapply(..)
 , Contrapplicative(..)
+  -- * Functions
+, Fun(..)
   -- * Cofunctions
 , Cofun(..)
 , type (>-)
@@ -175,6 +177,11 @@ class Contravariant k => Contrapply r k | k -> r where
 
 class Contrapply r k => Contrapplicative r k | k -> r where
   copure :: (b -> a) -> k (a >-r-~ b)
+
+
+-- Functions
+
+newtype Fun r a b = Fun { getFun :: (r • b) -> (r • a) }
 
 
 -- Cofunctions
