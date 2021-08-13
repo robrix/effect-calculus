@@ -22,6 +22,7 @@ module Effect.Syntax
   -- * Contravariant applicative
 , comap
 , ContravariantCPS(..)
+, (<#>)
 , Contrapply(..)
 , Contrapplicative(..)
   -- * Functions
@@ -213,6 +214,11 @@ class Contravariant k => ContravariantCPS r k | k -> r where
 
 instance ContravariantCPS Bool Predicate where
   comapCPS f = coerceK . getFun f . coerceK
+
+(<#>) :: ContravariantCPS r k => (c -> Either a b) -> k a -> k (b >-r-~ c)
+(<#>) = comapCPS . cocurry
+
+infixl 3 <#>
 
 
 class ContravariantCPS r k => Contrapply r k | k -> r where
