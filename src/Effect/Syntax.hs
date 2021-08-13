@@ -102,9 +102,7 @@ infixr 6 ⊕
 instance Disj (⊕) where
   inl = fmap L
   inr = fmap R
-  l <-> r = K (\case
-    L a -> l • a
-    R b -> r • b)
+  l <-> r = cocurry (\case{ L a -> Left a ; R b -> Right b }) <#> l <&> r
 
 instance Foldable ((⊕) a) where
   foldMap = foldMapDefault
@@ -194,13 +192,13 @@ instance Conj (,) where
 class Disj d where
   inl :: Functor f => f a -> f (a `d` b)
   inr :: Functor f => f b -> f (a `d` b)
-  (<->) :: (r • a) -> (r • b) -> r • (a `d` b)
+  (<->) :: Contrapplicative r k => k a -> k b -> k (a `d` b)
   infixr 3 <->
 
 instance Disj Either where
   inl = fmap Left
   inr = fmap Right
-  f <-> g = K (either (f •) (g •))
+  f <-> g = cocurry id <#> f <&> g
 
 
 -- Contravariant applicative
