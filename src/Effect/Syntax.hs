@@ -2,7 +2,9 @@ module Effect.Syntax
 ( -- * Syntax
   Syn(..)
   -- * Connectives
+  -- ** With
 , type (&)(..)
+  -- ** Sum
 , type (⊕)(..)
   -- * Continuations
 , type (•)(..)
@@ -21,11 +23,15 @@ class Syn rep where
 
 -- Connectives
 
+-- With
+
 newtype a & b = With { getWith :: forall r . Either (r • a) (r • b) -> r }
 
 instance Bifunctor (&) where
   bimap f g r = With (getWith r . bimap (contramap f) (contramap g))
 
+
+-- Sum
 
 data a ⊕ b = L !a | R !b
 
