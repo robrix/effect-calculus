@@ -132,7 +132,7 @@ class Conj c where
 -- Disjunctions
 
 class Disj d where
-  inl :: (e % a) -> e % (a `d` b)
-  inr :: (e % b) -> e % (a `d` b)
+  inl :: Functor f => f a -> f (a `d` b)
+  inr :: Functor f => f b -> f (a `d` b)
   (<->) :: (r • a) -> (r • b) -> r • (a `d` b)
   infixr 3 <->
