@@ -34,6 +34,9 @@ instance Bifoldable (&) where
 instance Bifunctor (&) where
   bimap f g r = With (getWith r . bimap (contramap f) (contramap g))
 
+instance Bitraversable (&) where
+  bitraverse f g r = (\ a b -> With (either (• a) (• b))) <$> getWith r (Left (K f)) <*> getWith r (Right (K g))
+
 
 -- Sum
 
