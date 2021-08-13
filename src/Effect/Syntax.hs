@@ -214,7 +214,7 @@ class Contravariant k => Contrapply r k | k -> r where
   infixl 4 <&>
 
 instance Contrapply Bool Predicate where
-  f <&> a = comap (K (a •) >-) f
+  f <&> a = comap (coerceK a >-) f
 
 
 class Contrapply r k => Contrapplicative r k | k -> r where
