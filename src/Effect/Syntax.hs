@@ -31,6 +31,9 @@ newtype a & b = With { getWith :: forall r . Either (r • a) (r • b) -> r }
 instance Foldable ((&) a) where
   foldMap = bifoldMap (const mempty)
 
+instance Functor ((&) a) where
+  fmap = second
+
 instance Bifoldable (&) where
   bifoldMap = bifoldMapDefault
 
