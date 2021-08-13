@@ -18,6 +18,7 @@ module Effect.Syntax
 , Disj(..)
 ) where
 
+import Control.Applicative (liftA2)
 import Data.Bifoldable
 import Data.Bifunctor
 import Data.Bitraversable
@@ -42,7 +43,7 @@ newtype a & b = With { getWith :: forall r . r • Either (r • a) (r • b) }
 infixr 6 &
 
 instance Conj (&) where
-  a >-< b = V (\ e -> With (K (either (• e % a) (• e % b))))
+  (>-<) = liftA2 (\ a b -> With (K (either (• a) (• b))))
   exl a = K (\ (With k) -> k • Left a)
   exr b = K (\ (With k) -> k • Right b)
 
@@ -123,7 +124,7 @@ infixl 9 %
 -- Conjunctions
 
 class Conj c where
-  (>-<) :: (e % a) -> (e % b) -> (e % (a `c` b))
+  (>-<) :: Applicative f => f a -> f b -> f (a `c` b)
   infixr 4 >-<
   exl :: (r • a) -> r • (a `c` b)
   exr :: (r • b) -> r • (a `c` b)
