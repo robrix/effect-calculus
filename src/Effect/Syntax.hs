@@ -4,13 +4,13 @@ module Effect.Syntax
   -- * Connectives
   -- ** With
 , (&)
-, exl
-, exr
 , type (&)(..)
   -- ** Sum
 , type (⊕)(..)
   -- * Continuations
 , type (•)(..)
+  -- * Conjunctions
+, Conj(..)
 ) where
 
 import Data.Bifoldable
@@ -32,15 +32,13 @@ class Syn rep where
 (&) :: a -> b -> a & b
 a & b = With (K (either (• a) (• b)))
 
-exl :: (r • a) -> r • (a & b)
-exl a = K (\ (With k) -> k • Left a)
-
-exr :: (r • b) -> r • (a & b)
-exr b = K (\ (With k) -> k • Right b)
-
 newtype a & b = With { getWith :: forall r . r • Either (r • a) (r • b) }
 
 infixr 6 &
+
+instance Conj (&) where
+  exl a = K (\ (With k) -> k • Left a)
+  exr b = K (\ (With k) -> k • Right b)
 
 instance Foldable ((&) a) where
   foldMap = foldMapDefault
@@ -96,3 +94,10 @@ infixl 8 •
 
 instance Contravariant ((•) r) where
   contramap f (K g) = K (g . f)
+
+
+-- Conjunctions
+
+class Conj c where
+  exl :: (r • a) -> r • (a `c` b)
+  exr :: (r • b) -> r • (a `c` b)
