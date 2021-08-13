@@ -55,6 +55,7 @@ common common
     ViewPatterns
 
 library
+  import: common
   exposed-modules:
     Effect.Syntax
   build-depends:
