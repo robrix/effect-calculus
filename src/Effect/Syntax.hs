@@ -207,11 +207,13 @@ instance Disj Either where
 comap :: Contravariant f => (a' -> a) -> (f a -> f a')
 comap = contramap
 
+
 class Contravariant k => ContravariantCPS r k | k -> r where
   comapCPS :: (a' ~~r~> a) -> (k a -> k a')
 
 instance ContravariantCPS Bool Predicate where
   comapCPS f = coerceK . getFun f . coerceK
+
 
 class ContravariantCPS r k => Contrapply r k | k -> r where
   {-# MINIMAL coliftC2 | (<&>) #-}
