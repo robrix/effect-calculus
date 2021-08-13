@@ -9,6 +9,9 @@ module Effect.Syntax
 , type (⊕)(..)
   -- * Continuations
 , type (•)(..)
+  -- * Values
+, (%)
+, type (%)(..)
   -- * Conjunctions
 , Conj(..)
   -- * Disjunctions
@@ -101,6 +104,16 @@ infixl 8 •
 
 instance Contravariant ((•) r) where
   contramap f (K g) = K (g . f)
+
+
+-- Values
+
+(%) :: e -> e % a -> a
+a % V f = f a
+
+newtype e % a = V (e -> a)
+
+infixl 9 %
 
 
 -- Conjunctions
