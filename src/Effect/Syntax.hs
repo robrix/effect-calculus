@@ -2,6 +2,8 @@ module Effect.Syntax
 ( Syn(..)
   -- * Connectives
 , type (&)(..)
+  -- * Continuations
+, type (•)(..)
 ) where
 
 class Syn rep where
@@ -11,3 +13,8 @@ class Syn rep where
 -- Connectives
 
 newtype a & b = With { getWith :: forall x . (Either (a -> x) (b -> x) -> x) -> x }
+
+
+-- Continuations
+
+newtype r • a = K { (•) :: a -> r }
