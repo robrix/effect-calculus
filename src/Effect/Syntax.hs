@@ -27,6 +27,9 @@ instance Bifunctor (&) where
 
 data a ⊕ b = L a | R b
 
+instance Foldable ((⊕) a) where
+  foldMap = bifoldMap (const mempty)
+
 instance Functor ((⊕) a) where
   fmap = second
 
