@@ -9,6 +9,7 @@ module Effect.Syntax
 ) where
 
 import Data.Bifunctor
+import Data.Functor.Contravariant
 
 -- Syntax
 
@@ -29,3 +30,6 @@ data a ⊕ b = L a | R b
 -- Continuations
 
 newtype r • a = K { (•) :: a -> r }
+
+instance Contravariant ((•) r) where
+  contramap f (K g) = K (g . f)
