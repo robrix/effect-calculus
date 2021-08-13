@@ -20,6 +20,7 @@ module Effect.Syntax
   -- * Contravariant applicative
 , comap
 , Contrapply(..)
+, Contrapplicative(..)
   -- * Cofunctions
 , Cofun(..)
 , type (>-)
@@ -163,6 +164,10 @@ class Contravariant k => Contrapply r k | k -> r where
   (<&>) = coliftC2 id
 
   infixl 4 <&>
+
+
+class Contrapply r k => Contrapplicative r k | k -> r where
+  copure :: (b -> a) -> k (a >-r-~ b)
 
 
 -- Cofunctions
