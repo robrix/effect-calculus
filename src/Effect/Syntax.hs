@@ -67,6 +67,11 @@ data a ⊕ b = L !a | R !b
 
 infixr 6 ⊕
 
+instance Disj (⊕) where
+  l <-> r = K (\case
+    L a -> l • a
+    R b -> r • b)
+
 instance Foldable ((⊕) a) where
   foldMap = foldMapDefault
 
