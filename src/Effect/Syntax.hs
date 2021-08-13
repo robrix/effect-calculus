@@ -141,7 +141,7 @@ instance ContravariantCPS r ((•) r) where
   comapCPS = getFun
 
 instance Contrapply r ((•) r) where
-  coliftC2 f a b = K (\ c -> a • f (b :>- c))
+  coliftC2 f a b = K (\ c -> getFun f a • b :>- c)
   K f <&> a = K (\ b -> f (a :>- b))
 
 instance Contrapplicative r ((•) r) where
@@ -234,11 +234,11 @@ infixl 3 <#>
 class ContravariantCPS r k => Contrapply r k | k -> r where
   {-# MINIMAL coliftC2 | (<&>) #-}
 
-  coliftC2 :: ((b >-r-~ c) -> a) -> k a -> k b -> k c
-  coliftC2 f = (<&>) . comap f
+  coliftC2 :: ((b >-r-~ c) ~~r~> a) -> k a -> k b -> k c
+  coliftC2 f = (<&>) . comapCPS f
 
   (<&>) :: k (a >-r-~ b) -> k a -> k b
-  (<&>) = coliftC2 id
+  (<&>) = coliftC2 (fun (•))
 
   infixl 3 <&>
 
