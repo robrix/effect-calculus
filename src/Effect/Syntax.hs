@@ -122,6 +122,9 @@ instance Contrapply r ((•) r) where
   coliftC2 f a b = K (\ c -> a • f (b :>- c))
   K f <&> a = K (\ b -> f (a :>- b))
 
+instance Contrapplicative r ((•) r) where
+  copure f = K (\ (a :>- b) -> a • f b)
+
 
 -- Values
 
