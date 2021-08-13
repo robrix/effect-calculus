@@ -210,6 +210,8 @@ comap = contramap
 class Contravariant k => ContravariantCPS r k | k -> r where
   comapCPS :: (a' ~~r~> a) -> (k a -> k a')
 
+instance ContravariantCPS Bool Predicate where
+  comapCPS f = coerceK . getFun f . coerceK
 
 class Contravariant k => Contrapply r k | k -> r where
   {-# MINIMAL coliftC2 | (<&>) #-}
