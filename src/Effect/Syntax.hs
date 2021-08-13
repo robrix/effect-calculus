@@ -33,6 +33,8 @@ module Effect.Syntax
 , type (-~)
   -- ** Construction
 , (>-)
+  -- ** Elimination
+, withCofun
   -- ** Computation
 , cocurry
 ) where
@@ -235,6 +237,12 @@ infixr 0 -~
 
 (>-) :: (r • b) -> a -> Cofun r b a
 (>-) = (:>-)
+
+
+-- Elimination
+
+withCofun :: Cofun r a b -> ((r • a) -> b -> s) -> s
+withCofun (a :>- b) f = f a b
 
 
 -- Computation
