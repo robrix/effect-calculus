@@ -35,6 +35,7 @@ module Effect.Syntax
 , (>-)
   -- ** Elimination
 , withCofun
+, appCofun
   -- ** Computation
 , cocurry
 ) where
@@ -243,6 +244,9 @@ infixr 0 -~
 
 withCofun :: Cofun r b a -> s • ((r • b) -> a -> s)
 withCofun (b :>- a) = K (\ f -> f b a)
+
+appCofun :: (a -> b) -> r • Cofun r b a
+appCofun f = K (\ (b :>- a) -> b • f a)
 
 
 -- Computation
