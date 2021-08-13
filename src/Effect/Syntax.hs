@@ -80,7 +80,7 @@ instance Disj (⊕) where
   inl = fmap L
   inr = fmap R
   l <-> r = K (\case
-    L a -> l • a
+    L a -> l • a
     R b -> r • b)
 
 instance Foldable ((⊕) a) where
@@ -139,7 +139,7 @@ class Conj c where
 class Disj d where
   inl :: Functor f => f a -> f (a `d` b)
   inr :: Functor f => f b -> f (a `d` b)
-  (<->) :: (r • a) -> (r • b) -> r • (a `d` b)
+  (<->) :: (r • a) -> (r • b) -> r • (a `d` b)
   infixr 3 <->
 
 
