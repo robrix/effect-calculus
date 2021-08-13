@@ -58,7 +58,7 @@ instance Bifunctor (&) where
   bimap = bimapDefault
 
 instance Bitraversable (&) where
-  bitraverse f g (With k) = (&) <$> k • Left (K f) <*> k • Right (K g)
+  bitraverse f g w = (&) <$> f (exl w) <*> g (exr w)
 
 
 -- Sum
