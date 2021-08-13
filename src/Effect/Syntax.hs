@@ -136,7 +136,7 @@ instance Contrapply r ((•) r) where
   K f <&> a = K (\ b -> f (a :>- b))
 
 instance Contrapplicative r ((•) r) where
-  copure f = K (\ (a :>- b) -> a • f b)
+  copure = appCofun
 
 
 -- Values
