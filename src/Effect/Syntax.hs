@@ -11,6 +11,7 @@ module Effect.Syntax
   -- * Continuations
 , type (•)(..)
 , Continuation(..)
+, coerceK
   -- * Values
 , (%)
 , type (%)(..)
@@ -150,6 +151,10 @@ instance Continuation r ((•) r) where
 instance Continuation Bool Predicate where
   inK = Predicate
   (•) = getPredicate
+
+
+coerceK :: (Continuation r j, Continuation r k) => j a -> k a
+coerceK = inK . (•)
 
 
 -- Values
