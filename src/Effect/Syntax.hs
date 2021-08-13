@@ -98,14 +98,14 @@ instance Bitraversable (&) where
 
 -- Sum
 
-data a ⊕ b = L !a | R !b
+data a ⊕ b = InL !a | InR !b
 
 infixr 6 ⊕
 
 instance Disj (⊕) where
-  inl = fmap L
-  inr = fmap R
-  l <-> r = cocurry (\case{ L a -> Left a ; R b -> Right b }) <#> l <&> r
+  inl = fmap InL
+  inr = fmap InR
+  l <-> r = cocurry (\case{ InL a -> Left a ; InR b -> Right b }) <#> l <&> r
 
 instance Foldable ((⊕) a) where
   foldMap = foldMapDefault
