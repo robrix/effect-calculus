@@ -28,6 +28,8 @@ module Effect.Syntax
   -- ** Mixfix syntax
 , type (~~)
 , type (~>)
+  -- ** Elimination
+, runFun
   -- * Cofunctions
 , Cofun(..)
   -- ** Mixfix syntax
@@ -236,6 +238,12 @@ type r~> b = r b
 
 infixr 1 ~~
 infixr 0 ~>
+
+
+-- Elimination
+
+runFun :: (r • b) -> a -> r • Fun r a b
+runFun k a = K (\ f -> getFun f k • a)
 
 
 -- Cofunctions
