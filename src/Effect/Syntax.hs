@@ -10,6 +10,7 @@ module Effect.Syntax
 , type (⊕)(..)
   -- * Continuations
 , type (•)(..)
+, Continuation(..)
   -- * Values
 , (%)
 , type (%)(..)
@@ -123,7 +124,7 @@ instance Bitraversable (⊕) where
 
 -- Continuations
 
-newtype r • a = K { (•) :: a -> r }
+newtype r • a = K { getK :: a -> r }
 
 infixl 8 •
 
@@ -136,6 +137,15 @@ instance Contrapply r ((•) r) where
 
 instance Contrapplicative r ((•) r) where
   copure f = K (\ (a :>- b) -> a • f b)
+
+
+class Continuation r k | k -> r where
+  inK :: (a -> r) -> k a
+  (•) :: k a -> (a -> r)
+
+instance Continuation r ((•) r) where
+  inK = K
+  (•) = getK
 
 
 -- Values
@@ -202,7 +212,7 @@ class Contrapply r k => Contrapplicative r k | k -> r where
   copure :: (b -> a) -> k (a >-r-~ b)
 
 instance Contrapplicative Bool Predicate where
-  copure = Predicate . (•) . copure
+  copure = Predicate . getK . copure
 
 
 -- Functions
