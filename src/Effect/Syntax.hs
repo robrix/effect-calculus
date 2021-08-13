@@ -188,6 +188,9 @@ newtype Fun r a b = Fun { getFun :: (r • b) -> (r • a) }
 type a ~~r = Fun r a
 type r~> b = r b
 
+infixr 1 ~~
+infixr 0 ~>
+
 
 -- Cofunctions
 
@@ -195,3 +198,6 @@ data Cofun r b a = (:>-) { coreturn :: r • b, coconst :: a }
 
 type a >-r = Cofun r a
 type r-~ b = r b
+
+infixr 1 >-
+infixr 0 -~
