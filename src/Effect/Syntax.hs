@@ -42,6 +42,7 @@ newtype a & b = With { getWith :: forall r . r • Either (r • a) (r • b) }
 infixr 6 &
 
 instance Conj (&) where
+  a >-< b = V (\ e -> With (K (either (• e % a) (• e % b))))
   exl a = K (\ (With k) -> k • Left a)
   exr b = K (\ (With k) -> k • Right b)
 
@@ -119,6 +120,8 @@ infixl 9 %
 -- Conjunctions
 
 class Conj c where
+  (>-<) :: (e % a) -> (e % b) -> (e % (a `c` b))
+  infixr 4 >-<
   exl :: (r • a) -> r • (a `c` b)
   exr :: (r • b) -> r • (a `c` b)
 
