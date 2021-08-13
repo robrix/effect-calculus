@@ -30,6 +30,8 @@ module Effect.Syntax
 , Contrapplicative(..)
   -- * Functions
 , Fun(..)
+  -- ** Construction
+, fun
   -- ** Mixfix syntax
 , type (~~)
 , type (~>)
@@ -263,6 +265,12 @@ type r~> b = r b
 
 infixr 1 ~~
 infixr 0 ~>
+
+
+-- Construction
+
+fun :: (r • b -> a -> r) -> a ~~r~> b
+fun = Fun . fmap K
 
 
 -- Elimination
