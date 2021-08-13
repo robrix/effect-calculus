@@ -147,6 +147,10 @@ instance Continuation r ((•) r) where
   inK = K
   (•) = getK
 
+instance Continuation Bool Predicate where
+  inK = Predicate
+  (•) = getPredicate
+
 
 -- Values
 
