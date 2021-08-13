@@ -16,6 +16,10 @@ module Effect.Syntax
 , Conj(..)
   -- * Disjunctions
 , Disj(..)
+  -- * Cofunctions
+, Cofun(..)
+, type (>-)
+, type (-~)
 ) where
 
 import Control.Applicative (liftA2)
@@ -137,3 +141,11 @@ class Disj d where
   inr :: Functor f => f b -> f (a `d` b)
   (<->) :: (r • a) -> (r • b) -> r • (a `d` b)
   infixr 3 <->
+
+
+-- Cofunctions
+
+data Cofun r b a = (:>-) { coreturn :: r • b, coconst :: a }
+
+type a >-r = Cofun r a
+type r-~ b = r b
