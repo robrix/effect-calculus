@@ -1,0 +1,61 @@
+cabal-version:      2.4
+name:               effect-calculus
+version:            0.0.0.0
+synopsis:           An effect calculus
+description:        Specification and implementation of an effect calculus
+homepage:           https://github.com/robrix/effect-calculus
+bug-reports:        https://github.com/robrix/effect-calculus/issues
+license:            BSD-3-Clause
+license-file:       LICENSE
+author:             Rob Rix
+maintainer:         rob.rix@me.com
+copyright:          2021 Rob Rix
+category:           Language
+
+common common
+  default-language: Haskell2010
+  ghc-options:
+    -Weverything
+    -Wno-all-missed-specialisations
+    -Wno-implicit-prelude
+    -Wno-missed-specialisations
+    -Wno-missing-import-lists
+    -Wno-missing-local-signatures
+    -Wno-monomorphism-restriction
+    -Wno-name-shadowing
+    -Wno-safe
+    -Wno-unsafe
+  if (impl(ghc >= 8.8))
+    ghc-options: -Wno-missing-deriving-strategies
+  if (impl(ghc >= 8.10))
+    ghc-options:
+      -Wno-missing-safe-haskell-mode
+      -Wno-prepositive-qualified-module
+  default-extensions:
+    DeriveTraversable
+    DerivingStrategies
+    DerivingVia
+    DisambiguateRecordFields
+    DuplicateRecordFields
+    EmptyCase
+    FlexibleContexts
+    FlexibleInstances
+    GeneralizedNewtypeDeriving
+    KindSignatures
+    LambdaCase
+    MultiParamTypeClasses
+    MultiWayIf
+    NamedFieldPuns
+    NoStarIsType
+    RankNTypes
+    StandaloneDeriving
+    TupleSections
+    TypeApplications
+    TypeOperators
+    ViewPatterns
+
+library
+  build-depends:
+    , base ^>=4.14.1.0
+  hs-source-dirs:   src
+  default-language: Haskell2010
