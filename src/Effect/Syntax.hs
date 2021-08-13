@@ -192,6 +192,9 @@ class Contravariant k => Contrapply r k | k -> r where
 
   infixl 4 <&>
 
+instance Contrapply Bool Predicate where
+  f <&> a = Predicate (getPredicate f . (K (getPredicate a) >-))
+
 
 class Contrapply r k => Contrapplicative r k | k -> r where
   copure :: (b -> a) -> k (a >-r-~ b)
