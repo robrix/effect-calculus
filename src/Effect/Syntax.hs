@@ -29,10 +29,10 @@ class Syn rep where
 newtype a & b = With { getWith :: forall r . Either (r • a) (r • b) -> r }
 
 instance Bifoldable (&) where
-  bifoldMap f g r = getWith r (Left (K f)) <> getWith r (Right (K g))
+  bifoldMap = bifoldMapDefault
 
 instance Bifunctor (&) where
-  bimap f g r = With (getWith r . bimap (contramap f) (contramap g))
+  bimap = bimapDefault
 
 instance Bitraversable (&) where
   bitraverse f g r = (\ a b -> With (either (• a) (• b))) <$> getWith r (Left (K f)) <*> getWith r (Right (K g))
