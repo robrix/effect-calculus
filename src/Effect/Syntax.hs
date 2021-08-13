@@ -153,6 +153,11 @@ class Conj c where
   exl :: Contravariant k => k a -> k (a `c` b)
   exr :: Contravariant k => k b -> k (a `c` b)
 
+instance Conj (,) where
+  (>-<) = liftA2 (,)
+  exl = comap fst
+  exr = comap snd
+
 
 -- Disjunctions
 
