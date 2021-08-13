@@ -34,6 +34,9 @@ instance Foldable ((&) a) where
 instance Functor ((&) a) where
   fmap = second
 
+instance Traversable ((&) a) where
+  traverse = bitraverse pure
+
 instance Bifoldable (&) where
   bifoldMap = bifoldMapDefault
 
