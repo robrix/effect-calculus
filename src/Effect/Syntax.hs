@@ -23,6 +23,8 @@ module Effect.Syntax
 , Contrapplicative(..)
   -- * Functions
 , Fun(..)
+, type (~~)
+, type (~>)
   -- * Cofunctions
 , Cofun(..)
 , type (>-)
@@ -182,6 +184,9 @@ class Contrapply r k => Contrapplicative r k | k -> r where
 -- Functions
 
 newtype Fun r a b = Fun { getFun :: (r • b) -> (r • a) }
+
+type a ~~r = Fun r a
+type r~> b = r b
 
 
 -- Cofunctions
