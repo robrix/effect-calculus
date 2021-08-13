@@ -118,6 +118,10 @@ infixl 8 •
 instance Contravariant ((•) r) where
   contramap f (K g) = K (g . f)
 
+instance Contrapply r ((•) r) where
+  coliftC2 f a b = K (\ c -> a • f (b :>- c))
+  K f <&> a = K (\ b -> f (a :>- b))
+
 
 -- Values
 
