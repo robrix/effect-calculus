@@ -199,6 +199,9 @@ instance Contrapply Bool Predicate where
 class Contrapply r k => Contrapplicative r k | k -> r where
   copure :: (b -> a) -> k (a >-r-~ b)
 
+instance Contrapplicative Bool Predicate where
+  copure f = Predicate (\ (a :>- b) -> a • f b)
+
 
 -- Functions
 
