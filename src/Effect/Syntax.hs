@@ -26,6 +26,7 @@ newtype a & b = With { getWith :: forall r . Either (r • a) (r • b) -> r }
 instance Bifunctor (&) where
   bimap f g r = With (getWith r . bimap (contramap f) (contramap g))
 
+
 data a ⊕ b = L !a | R !b
 
 instance Foldable ((⊕) a) where
