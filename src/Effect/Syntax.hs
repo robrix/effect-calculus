@@ -14,6 +14,7 @@ import Data.Bifoldable
 import Data.Bifunctor
 import Data.Bitraversable
 import Data.Functor.Contravariant
+import Data.Traversable
 
 -- Syntax
 
@@ -36,10 +37,10 @@ instance Bifunctor (&) where
 data a ⊕ b = L !a | R !b
 
 instance Foldable ((⊕) a) where
-  foldMap = bifoldMap (const mempty)
+  foldMap = foldMapDefault
 
 instance Functor ((⊕) a) where
-  fmap = second
+  fmap = fmapDefault
 
 instance Traversable ((⊕) a)  where
   traverse = bitraverse pure
