@@ -35,7 +35,6 @@ module Effect.Syntax
 , (>-)
   -- ** Elimination
 , withCofun
-, appCofun
   -- ** Computation
 , cocurry
 ) where
@@ -136,7 +135,7 @@ instance Contrapply r ((•) r) where
   K f <&> a = K (\ b -> f (a :>- b))
 
 instance Contrapplicative r ((•) r) where
-  copure = appCofun
+  copure f = K (\ (a :>- b) -> a • f b)
 
 
 -- Values
@@ -203,7 +202,7 @@ class Contrapply r k => Contrapplicative r k | k -> r where
   copure :: (b -> a) -> k (a >-r-~ b)
 
 instance Contrapplicative Bool Predicate where
-  copure = Predicate . (•) . appCofun
+  copure = Predicate . (•) . copure
 
 
 -- Functions
@@ -244,9 +243,6 @@ infixr 0 -~
 
 withCofun :: Cofun r b a -> s • ((r • b) -> a -> s)
 withCofun (b :>- a) = K (\ f -> f b a)
-
-appCofun :: (a -> b) -> r • Cofun r b a
-appCofun f = K (\ (b :>- a) -> b • f a)
 
 
 -- Computation
