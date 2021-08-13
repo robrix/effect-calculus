@@ -213,7 +213,7 @@ class Contravariant k => ContravariantCPS r k | k -> r where
 instance ContravariantCPS Bool Predicate where
   comapCPS f = coerceK . getFun f . coerceK
 
-class Contravariant k => Contrapply r k | k -> r where
+class ContravariantCPS r k => Contrapply r k | k -> r where
   {-# MINIMAL coliftC2 | (<&>) #-}
 
   coliftC2 :: ((b >-r-~ c) -> a) -> k a -> k b -> k c
