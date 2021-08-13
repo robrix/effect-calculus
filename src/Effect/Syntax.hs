@@ -1,3 +1,4 @@
+{-# LANGUAGE FunctionalDependencies #-}
 module Effect.Syntax
 ( -- * Syntax
   Syn(..)
@@ -18,6 +19,7 @@ module Effect.Syntax
 , Disj(..)
   -- * Contravariant applicative
 , comap
+, Contrapply(..)
   -- * Cofunctions
 , Cofun(..)
 , type (>-)
@@ -149,6 +151,18 @@ class Disj d where
 
 comap :: Contravariant f => (a' -> a) -> (f a -> f a')
 comap = contramap
+
+
+class Contravariant k => Contrapply r k | k -> r where
+  {-# MINIMAL coliftC2 | (<&>) #-}
+
+  coliftC2 :: ((b >-r-~ c) -> a) -> k a -> k b -> k c
+  coliftC2 f = (<&>) . comap f
+
+  (<&>) :: k (a >-r-~ b) -> k a -> k b
+  (<&>) = coliftC2 id
+
+  infixl 4 <&>
 
 
 -- Cofunctions
