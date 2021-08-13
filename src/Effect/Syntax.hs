@@ -241,8 +241,8 @@ infixr 0 -~
 
 -- Elimination
 
-withCofun :: Cofun r a b -> ((r • a) -> b -> s) -> s
-withCofun (a :>- b) f = f a b
+withCofun :: Cofun r b a -> s • ((r • b) -> a -> s)
+withCofun (b :>- a) = K (\ f -> f b a)
 
 
 -- Computation
