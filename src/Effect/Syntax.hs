@@ -20,6 +20,7 @@ module Effect.Syntax
 , Conj(..)
   -- * Disjunctions
 , Disj(..)
+, bitraverseDisj
   -- * Contravariant applicative
 , comap
 , ContravariantCPS(..)
@@ -91,7 +92,7 @@ instance Bifunctor (&) where
   bimap = bimapDefault
 
 instance Bitraversable (&) where
-  bitraverse f g w = (&) <$> exl (K f) • w <*> exr (K g) • w
+  bitraverse = bitraverseDisj
 
 
 -- Sum
@@ -121,9 +122,7 @@ instance Bifunctor (⊕) where
   bimap = bimapDefault
 
 instance Bitraversable (⊕) where
-  bitraverse f g = \case
-    L a -> L <$> f a
-    R b -> R <$> g b
+  bitraverse = bitraverseDisj
 
 
 -- Continuations
@@ -203,6 +202,9 @@ instance Disj Either where
   inl = fmap Left
   inr = fmap Right
   f <-> g = cocurry id <#> f <&> g
+
+bitraverseDisj :: (Disj d, Applicative f) => (a -> f a') -> (b -> f b') -> d a b -> f (d a' b')
+bitraverseDisj f g d = (K (inl . f) <-> K (inr . g)) • d
 
 
 -- Contravariant applicative
