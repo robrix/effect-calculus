@@ -233,5 +233,5 @@ infixr 0 -~
 
 -- Computation
 
-cocurry :: Fun r c (Either a b) -> Fun r (Cofun r b c) a
-cocurry f = Fun (\ k -> K (\ (b :>- c) -> getFun f (k <-> b) • c))
+cocurry :: (c -> Either a b) -> Fun r (Cofun r b c) a
+cocurry f = Fun (\ k -> K (\ (b :>- c) -> (k <-> b) • f c))
