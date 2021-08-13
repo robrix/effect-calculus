@@ -27,9 +27,9 @@ class Syn rep where
 -- With
 
 (&) :: a -> b -> a & b
-a & b = With (either (• a) (• b))
+a & b = With (K (either (• a) (• b)))
 
-newtype a & b = With { getWith :: forall r . Either (r • a) (r • b) -> r }
+newtype a & b = With { getWith :: forall r . r • Either (r • a) (r • b) }
 
 infixr 6 &
 
@@ -49,7 +49,7 @@ instance Bifunctor (&) where
   bimap = bimapDefault
 
 instance Bitraversable (&) where
-  bitraverse f g r = (&) <$> getWith r (Left (K f)) <*> getWith r (Right (K g))
+  bitraverse f g r = (&) <$> getWith r • Left (K f) <*> getWith r • Right (K g)
 
 
 -- Sum
