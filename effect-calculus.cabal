@@ -55,6 +55,8 @@ common common
     ViewPatterns
 
 library
+  exposed-modules:
+    Effect.Syntax
   build-depends:
     , base ^>=4.14.1.0
   hs-source-dirs:   src
