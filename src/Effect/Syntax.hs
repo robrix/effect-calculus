@@ -8,6 +8,7 @@ module Effect.Syntax
 , type (•)(..)
 ) where
 
+import Data.Bifoldable
 import Data.Bifunctor
 import Data.Functor.Contravariant
 
@@ -28,6 +29,11 @@ data a ⊕ b = L a | R b
 
 instance Functor ((⊕) a) where
   fmap = second
+
+instance Bifoldable (⊕) where
+  bifoldMap f g = \case
+    L a -> f a
+    R b -> g b
 
 instance Bifunctor (⊕) where
   bimap f g = \case
