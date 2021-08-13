@@ -31,6 +31,8 @@ a & b = With (either (• a) (• b))
 
 newtype a & b = With { getWith :: forall r . Either (r • a) (r • b) -> r }
 
+infixr 6 &
+
 instance Foldable ((&) a) where
   foldMap = foldMapDefault
 
@@ -53,6 +55,8 @@ instance Bitraversable (&) where
 -- Sum
 
 data a ⊕ b = L !a | R !b
+
+infixr 6 ⊕
 
 instance Foldable ((⊕) a) where
   foldMap = foldMapDefault
@@ -78,6 +82,8 @@ instance Bitraversable (⊕) where
 -- Continuations
 
 newtype r • a = K { (•) :: a -> r }
+
+infixl 8 •
 
 instance Contravariant ((•) r) where
   contramap f (K g) = K (g . f)
