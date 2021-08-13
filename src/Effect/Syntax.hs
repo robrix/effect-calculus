@@ -1,5 +1,6 @@
 module Effect.Syntax
-( Syn(..)
+( -- * Syntax
+  Syn(..)
   -- * Connectives
 , type (&)(..)
 , type (⊕)(..)
@@ -8,6 +9,8 @@ module Effect.Syntax
 ) where
 
 import Data.Bifunctor
+
+-- Syntax
 
 class Syn rep where
   hdl :: (msg -> rep a) -> rep a
