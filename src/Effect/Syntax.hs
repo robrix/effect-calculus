@@ -44,8 +44,8 @@ infixr 6 &
 
 instance Conj (&) where
   (>-<) = liftA2 (\ a b -> With (K (either (• a) (• b))))
-  exl a = K (\ (With k) -> k • Left a)
-  exr b = K (\ (With k) -> k • Right b)
+  exl a = contramap (\ (With k) -> k • Left  (K id)) a
+  exr b = contramap (\ (With k) -> k • Right (K id)) b
 
 instance Foldable ((&) a) where
   foldMap = foldMapDefault
@@ -126,8 +126,8 @@ infixl 9 %
 class Conj c where
   (>-<) :: Applicative f => f a -> f b -> f (a `c` b)
   infixr 4 >-<
-  exl :: (r • a) -> r • (a `c` b)
-  exr :: (r • b) -> r • (a `c` b)
+  exl :: Contravariant k => k a -> k (a `c` b)
+  exr :: Contravariant k => k b -> k (a `c` b)
 
 
 -- Disjunctions
