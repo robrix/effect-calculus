@@ -113,6 +113,7 @@ instance Contravariant ((•) r) where
 a % V f = f a
 
 newtype e % a = V (e -> a)
+  deriving (Applicative, Functor, Monad)
 
 infixl 9 %
 
