@@ -33,6 +33,8 @@ module Effect.Syntax
 , type (-~)
   -- ** Construction
 , (>-)
+  -- ** Computation
+, cocurry
 ) where
 
 import Control.Applicative (liftA2)
@@ -227,3 +229,9 @@ infixr 0 -~
 
 (>-) :: (r • b) -> a -> Cofun r b a
 (>-) = (:>-)
+
+
+-- Computation
+
+cocurry :: Fun r c (Either a b) -> Fun r (Cofun r b c) a
+cocurry f = Fun (\ k -> K (\ (b :>- c) -> getFun f (k <-> b) • c))
