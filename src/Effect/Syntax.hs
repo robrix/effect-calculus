@@ -29,10 +29,10 @@ class Syn rep where
 newtype a & b = With { getWith :: forall r . Either (r • a) (r • b) -> r }
 
 instance Foldable ((&) a) where
-  foldMap = bifoldMap (const mempty)
+  foldMap = foldMapDefault
 
 instance Functor ((&) a) where
-  fmap = second
+  fmap = fmapDefault
 
 instance Traversable ((&) a) where
   traverse = bitraverse pure
