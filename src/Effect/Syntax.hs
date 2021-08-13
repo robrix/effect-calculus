@@ -18,6 +18,7 @@ module Effect.Syntax
 , type (%)(..)
   -- * Conjunctions
 , Conj(..)
+, bitraverseConj
   -- * Disjunctions
 , Disj(..)
 , bitraverseDisj
@@ -92,7 +93,7 @@ instance Bifunctor (&) where
   bimap = bimapDefault
 
 instance Bitraversable (&) where
-  bitraverse = bitraverseDisj
+  bitraverse = bitraverseConj
 
 
 -- Sum
@@ -188,6 +189,9 @@ instance Conj (,) where
   (>-<) = liftA2 (,)
   exl = comap fst
   exr = comap snd
+
+bitraverseConj :: (Conj c, Applicative f) => (a -> f a') -> (b -> f b') -> c a b -> f (c a' b')
+bitraverseConj f g c = exl (K f) • c >-< exr (K g) • c
 
 
 -- Disjunctions
