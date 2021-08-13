@@ -167,6 +167,11 @@ class Disj d where
   (<->) :: (r • a) -> (r • b) -> r • (a `d` b)
   infixr 3 <->
 
+instance Disj Either where
+  inl = fmap Left
+  inr = fmap Right
+  f <-> g = K (either (f •) (g •))
+
 
 -- Contravariant applicative
 
