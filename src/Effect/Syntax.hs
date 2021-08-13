@@ -11,6 +11,8 @@ module Effect.Syntax
 , type (•)(..)
   -- * Conjunctions
 , Conj(..)
+  -- * Disjunctions
+, Disj(..)
 ) where
 
 import Data.Bifoldable
@@ -101,3 +103,10 @@ instance Contravariant ((•) r) where
 class Conj c where
   exl :: (r • a) -> r • (a `c` b)
   exr :: (r • b) -> r • (a `c` b)
+
+
+-- Disjunctions
+
+class Disj d where
+  (<->) :: (r • a) -> (r • b) -> r • (a `d` b)
+  infixr 3 <->
