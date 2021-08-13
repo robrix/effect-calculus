@@ -215,8 +215,8 @@ class Contravariant k => ContravariantCPS r k | k -> r where
 instance ContravariantCPS Bool Predicate where
   comapCPS f = coerceK . getFun f . coerceK
 
-(<#>) :: ContravariantCPS r k => (c -> Either a b) -> k a -> k (b >-r-~ c)
-(<#>) = comapCPS . cocurry
+(<#>) :: ContravariantCPS r k => (a' ~~r~> a) -> (k a -> k a')
+(<#>) = comapCPS
 
 infixl 3 <#>
 
