@@ -72,6 +72,8 @@ data a ⊕ b = L !a | R !b
 infixr 6 ⊕
 
 instance Disj (⊕) where
+  inl = fmap L
+  inr = fmap R
   l <-> r = K (\case
     L a -> l • a
     R b -> r • b)
@@ -130,5 +132,7 @@ class Conj c where
 -- Disjunctions
 
 class Disj d where
+  inl :: (e % a) -> e % (a `d` b)
+  inr :: (e % b) -> e % (a `d` b)
   (<->) :: (r • a) -> (r • b) -> r • (a `d` b)
   infixr 3 <->
