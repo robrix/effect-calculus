@@ -31,6 +31,8 @@ module Effect.Syntax
   -- ** Mixfix syntax
 , type (>-)
 , type (-~)
+  -- ** Construction
+, (>-)
 ) where
 
 import Control.Applicative (liftA2)
@@ -209,3 +211,9 @@ type r-~ b = r b
 
 infixr 1 >-
 infixr 0 -~
+
+
+-- Construction
+
+(>-) :: (r • b) -> a -> Cofun r b a
+(>-) = (:>-)
