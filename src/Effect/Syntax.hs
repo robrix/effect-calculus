@@ -1,2 +1,6 @@
 module Effect.Syntax
-() where
+( Syn(..)
+) where
+
+class Syn rep where
+  hdl :: (msg -> rep a) -> rep a
